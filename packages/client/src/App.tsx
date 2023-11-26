@@ -12,7 +12,7 @@ export const App = () => {
 
   return (
     <>
-      <div>
+      {/* <div>
         Counter: <span>{counter?.value ?? "??"}</span>
       </div>
       <button
@@ -23,7 +23,8 @@ export const App = () => {
         }}
       >
         Increment
-      </button>
+      </button> */}
+      Hellos Serrs
     </>
   );
 };

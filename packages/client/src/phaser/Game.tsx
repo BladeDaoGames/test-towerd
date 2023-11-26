@@ -13,8 +13,8 @@ const Game = () => {
       antialias: false,
     },
     scale:{
-        width: 600,
-        height: 600,
+        width: 640,
+        height: 512,
         mode:  Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.Center.CENTER_BOTH,
         // width: '100%',

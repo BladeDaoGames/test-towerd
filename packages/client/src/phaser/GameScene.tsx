@@ -13,6 +13,18 @@ class GameScene extends Phaser.Scene {
 
     create() {
         //
+        const graphics = this.add.graphics();
+
+        // the path for our enemies
+        // parameters are the start x and y of our path
+        const path = this.add.path(96, -32);
+        path.lineTo(96, 164);
+        path.lineTo(480, 164);
+        path.lineTo(480, 544);
+
+        graphics.lineStyle(3, 0xffffff, 1);
+        // visualize the path
+        path.draw(graphics);
     }
 
     update() {

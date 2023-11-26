@@ -1,6 +1,7 @@
 import { useComponentValue } from "@latticexyz/react";
 import { useMUD } from "./MUDContext";
 import { singletonEntity } from "@latticexyz/store-sync/recs";
+import Game from "./phaser/game";
 
 export const App = () => {
   const {
@@ -24,7 +25,7 @@ export const App = () => {
       >
         Increment
       </button> */}
-      Hellos Serrs
+      <Game />
     </>
   );
 };

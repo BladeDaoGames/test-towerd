@@ -1,11 +1,15 @@
 import Phaser from 'phaser';
 import Enemy  from './enemies/Enemies';
+import Turret1 from './turrets/Turret1';
+import { map } from '../phaser/constants';
 
 class GameScene extends Phaser.Scene {
 
     private enemies!: Phaser.Physics.Arcade.Group;
+    private turrets!: Phaser.GameObjects.Group;
     private nextEnemy!: number;
     private path!: Phaser.Curves.Path;
+    private map=map;
 
     constructor(){
         super('GameScene')
@@ -33,7 +37,10 @@ class GameScene extends Phaser.Scene {
         this.path.draw(graphics);
 
         this.enemies = this.physics.add.group({ classType: Enemy, runChildUpdate: true });
+        this.turrets = this.add.group({ classType: Turret1, runChildUpdate: true });
+
         this.nextEnemy = 0;
+        this.input.on('pointerdown', this.placeTurret, this);
     }
     
     drawLines(graphics:Phaser.GameObjects.Graphics) {
@@ -47,6 +54,26 @@ class GameScene extends Phaser.Scene {
             graphics.lineTo(j * 64, 512);
         }
         graphics.strokePath();
+    }
+
+    placeTurret(pointer:Phaser.Input.Pointer) {
+        const i = Math.floor(pointer.y/64);
+        const j = Math.floor(pointer.x/64);
+        console.log(i, j);
+        console.log(this.map);
+        if(this.map[i][j] === 0) {
+            const turret = this.turrets.get();
+            if (turret)
+            {
+                turret.setActive(true);
+                turret.setVisible(true);
+                turret.place(i, j, this.map);
+            }   
+        }
+    }
+
+    canPlaceTurret(i:number, j:number) {
+        return this.map[i][j] === 0;
     }
 
     update(time:number, delta:number) {

@@ -15,11 +15,11 @@ const Game = () => {
     scale:{
         width: 640,
         height: 512,
-        mode:  Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.Center.CENTER_BOTH,
+        //mode:  Phaser.Scale.FIT,
+        //autoCenter: Phaser.Scale.Center.CENTER_BOTH,
         // width: '100%',
         // height: '100%',
-        zoom: 1
+        //zoom: 1
         
     },
     physics:{

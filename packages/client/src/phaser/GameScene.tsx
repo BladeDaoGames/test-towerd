@@ -19,6 +19,7 @@ class GameScene extends Phaser.Scene {
     create() {
         //
         const graphics = this.add.graphics();
+        this.drawLines(graphics);
 
         // the path for our enemies
         // parameters are the start x and y of our path
@@ -33,6 +34,19 @@ class GameScene extends Phaser.Scene {
 
         this.enemies = this.physics.add.group({ classType: Enemy, runChildUpdate: true });
         this.nextEnemy = 0;
+    }
+    
+    drawLines(graphics:Phaser.GameObjects.Graphics) {
+        graphics.lineStyle(1, 0x0000ff, 0.8);
+        for(let i = 0; i < 8; i++) {
+            graphics.moveTo(0, i * 64);
+            graphics.lineTo(640, i * 64);
+        }
+        for(let j = 0; j < 10; j++) {
+            graphics.moveTo(j * 64, 0);
+            graphics.lineTo(j * 64, 512);
+        }
+        graphics.strokePath();
     }
 
     update(time:number, delta:number) {

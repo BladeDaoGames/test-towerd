@@ -6,7 +6,7 @@ export default class Enemy extends
 
         private follower: { t: number, vec: Phaser.Math.Vector2 };
         hp: number;
-        path: Phaser.Curves.Path;
+        path!: Phaser.Curves.Path;
 
         constructor(scene: Phaser.Scene, x: number, y: number,
             texture: string, frame: string | number) {

@@ -19,12 +19,12 @@ export default class Turret1 extends
         }
 
         fire() {
-            // let enemy = getEnemy(this.x, this.y, 200);
-            // if(enemy) {
-            //     var angle = Phaser.Math.Angle.Between(this.x, this.y, enemy.x, enemy.y);
-            //     addBullet(this.x, this.y, angle);
-            //     this.angle = (angle + Math.PI/2) * Phaser.Math.RAD_TO_DEG;
-            // }
+            const enemy = this.scene.getEnemy(this.x, this.y, 200);
+            if(enemy) {
+                const angle = Phaser.Math.Angle.Between(this.x, this.y, enemy.x, enemy.y);
+                this.scene.addBullet(this.x, this.y, angle);
+                this.angle = (angle + Math.PI/2) * Phaser.Math.RAD_TO_DEG;
+            }
         }
 
         update(time:number, delta:number)

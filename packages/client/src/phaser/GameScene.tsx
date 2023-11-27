@@ -1,12 +1,14 @@
 import Phaser from 'phaser';
 import Enemy  from './enemies/Enemies';
 import Turret1 from './turrets/Turret1';
-import { map } from '../phaser/constants';
+import BulletTurret1 from './turrets/BulletTurret1';
+import { map, BULLET_DAMAGE } from '../phaser/constants';
 
 class GameScene extends Phaser.Scene {
 
     private enemies!: Phaser.Physics.Arcade.Group;
     private turrets!: Phaser.GameObjects.Group;
+    private bullets!: Phaser.GameObjects.Group;
     private nextEnemy!: number;
     private path!: Phaser.Curves.Path;
     private map=map;
@@ -38,11 +40,25 @@ class GameScene extends Phaser.Scene {
 
         this.enemies = this.physics.add.group({ classType: Enemy, runChildUpdate: true });
         this.turrets = this.add.group({ classType: Turret1, runChildUpdate: true });
+        this.bullets = this.physics.add.group({ classType: BulletTurret1, runChildUpdate: true });
 
         this.nextEnemy = 0;
+        this.physics.add.overlap(this.enemies, this.bullets, this.damageEnemy);
         this.input.on('pointerdown', this.placeTurret, this);
     }
     
+    damageEnemy(enemy:Enemy, bullet:BulletTurret1) {  
+        // only if both enemy and bullet are alive
+        if (enemy.active === true && bullet.active === true) {
+            // we remove the bullet right away
+            bullet.setActive(false);
+            bullet.setVisible(false);    
+            
+            // decrease the enemy hp with BULLET_DAMAGE
+            enemy.receiveDamage(BULLET_DAMAGE);
+        }
+    }
+
     drawLines(graphics:Phaser.GameObjects.Graphics) {
         graphics.lineStyle(1, 0x0000ff, 0.8);
         for(let i = 0; i < 8; i++) {
@@ -74,6 +90,24 @@ class GameScene extends Phaser.Scene {
 
     canPlaceTurret(i:number, j:number) {
         return this.map[i][j] === 0;
+    }
+
+    addBullet(x:number, y:number, angle:number) {
+        const bullet = this.bullets.get();
+        if (bullet)
+        {
+            bullet.fire(x, y, angle);
+        }
+    }
+
+    getEnemy(x:number, y:number, distance:number) {
+        const enemyUnits = this.enemies.getChildren();
+        for(let i = 0; i < enemyUnits.length; i++) {       
+            if(enemyUnits[i].active && Phaser.Math.Distance.Between(
+                x, y, enemyUnits[i].x, enemyUnits[i].y) < distance)
+                return enemyUnits[i];
+        }
+        return false;
     }
 
     update(time:number, delta:number) {
